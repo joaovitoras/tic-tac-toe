@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
 public class Cell extends JButton {
   private Font font = new Font("Avenir", Font.PLAIN, 40);
