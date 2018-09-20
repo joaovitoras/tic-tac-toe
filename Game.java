@@ -37,13 +37,13 @@ public class Game {
   }
 
   public void start() {
-    this.board.initCells();
-    this.board.initScore();
-    this.board.makeVisible();
+    this.board.setVisible(true);
   }
+
   public static void main(String args[]) {
     Game game = new Game();
     game.choosePlayers();
+    game.board.init();
     game.start();
   }
 }

@@ -15,61 +15,13 @@ public class Board extends JFrame implements ActionListener {
   private static final int PLAYED = 2;
   private static final int INVALID_MOVE = 3;
   private static final int WON = 4;
-  private JLabel label1;
+  private JLabel statusLabel;
+  private BoardCheck resultChecker;
 
   public Board() {
     setTitle("Johngo da Velha");
     board = new JPanel();
-    board.setLayout(new  BorderLayout());
-
-    // Termina a aplicação após fechar a janela
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-  }
-
-  public void initCells() {
-    cellsPanel = new JPanel();
-    cellsPanel.setLayout(new GridLayout(3, 3));
-
-    R1C1 = new Cell(1, 1);
-    R1C2 = new Cell(1, 2);
-    R1C3 = new Cell(1, 3);
-    R2C1 = new Cell(2, 1);
-    R2C2 = new Cell(2, 2);
-    R2C3 = new Cell(2, 3);
-    R3C1 = new Cell(3, 1);
-    R3C2 = new Cell(3, 2);
-    R3C3 = new Cell(3, 3);
-
-    cells = new Cell[][] {
-      { R1C1, R1C2, R1C3 },
-      { R2C1, R2C2, R2C3 },
-      { R3C1, R3C2, R3C3 }
-    };
-
-    // Adiciona todas as celulas no board
-    for (int row = 0; row < cells.length; row++) {
-      for (int col = 0; col < cells[row].length; col++) {
-        cells[row][col].addActionListener(this);
-        cellsPanel.add(cells[row][col]);
-      }
-    }
-
-    // Adiciona o board no frame
-    board.add(cellsPanel, BorderLayout.PAGE_START);
-  }
-
-  public void initScore() {
-    scorePanel = new JPanel();
-    scorePanel.setLayout(new GridLayout(1, 2));
-
-    label1 = new JLabel(player1.getName() + " playing");
-
-    label1.setHorizontalAlignment(JLabel.CENTER);
-    label1.setVerticalAlignment(JLabel.CENTER);
-
-    scorePanel.add(label1);
-
-    board.add(scorePanel, BorderLayout.PAGE_END);
+    board.setLayout(new BorderLayout());
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -82,7 +34,7 @@ public class Board extends JFrame implements ActionListener {
   }
 
   public void checkAndUpdateGameState() {
-    checkMove();
+    checkMoveAndUpdateState();
 
     switch (this.state) {
       case Board.PLAYED:
@@ -90,10 +42,11 @@ public class Board extends JFrame implements ActionListener {
         this.state = Board.PLAYING;
         break;
       case Board.INVALID_MOVE:
-        label1.setText("Jogada Invalida");
+        statusLabel.setText("Jogada Invalida");
         break;
       case Board.WON:
-        this.label1.setText(this.currentPlayer.getName() +  "won");
+        paintCells(this.resultChecker.getWinnerCells());
+        this.statusLabel.setText(this.currentPlayer.getMarker() +  "won");
         this.finishGame();
         break;
       default:
@@ -101,7 +54,7 @@ public class Board extends JFrame implements ActionListener {
     }
   }
 
-  public void checkMove() {
+  public void checkMoveAndUpdateState() {
     if (this.currentCell.isMarcable()) {
       this.currentCell.paint(this.currentPlayer);
       this.state = Board.PLAYED;
@@ -109,67 +62,10 @@ public class Board extends JFrame implements ActionListener {
       this.state = Board.INVALID_MOVE;
     }
 
-    if (this.hasWon()) {
+    if (this.resultChecker.hasWon()) {
       this.state = Board.WON;
     }
   }
-
-  public boolean hasWon() {
-    return (
-      wonBy("rows") || wonBy("cols")
-    );
-  }
-
-  public boolean wonByCols() {
-    for (int col = 0; col < cells.length; col++) {
-      int occurrences = 0;
-
-      for (int row = 0; row < cells[col].length; row++) {
-        if (cells[row][col].getPlayer() == this.currentPlayer) {
-          occurrences++;
-        }
-      }
-
-      if (occurrences == 3) {
-        paintCells(new Cell[] {cells[0][col], cells[1][col], cells[2][col]});
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  public boolean wonBy(String by) {
-    for (int row = 0; row < cells.length; row++) {
-      int occurrences = 0;
-
-      for (int col = 0; col < cells[row].length; col++) {
-        if (by.equals("rows")) {
-          if (cells[row][col].getPlayer() == this.currentPlayer) {
-            occurrences ++;
-          }
-        } else if (by.equals("cols")) {
-          if (cells[col][row].getPlayer() == this.currentPlayer) {
-            occurrences ++;
-          }
-        }
-
-
-      }
-
-      if (occurrences == 3) {
-        if (by.equals("rows")) {
-          paintCells(cells[row]);
-        } else if (by.equals("cols")) {
-          paintCells(new Cell[] { cells[0][row], cells[1][row], cells[2][row]});
-        }
-        return true;
-      }
-    }
-
-    return false;
-  }
-
 
   public void finishGame() {
     for (int row = 0; row < cells.length; row++) {
@@ -202,19 +98,77 @@ public class Board extends JFrame implements ActionListener {
     this.player2 = player;
   }
 
-  public void makeVisible() {
-    this.state = Board.PLAYING;
+  public Cell[][] getCells() {
+    return this.cells;
+  }
 
+  public Player getCurrentPlayer() {
+    return this.currentPlayer;
+  }
+
+  public void initCells() {
+    cellsPanel = new JPanel();
+    cellsPanel.setLayout(new GridLayout(3, 3));
+
+    R1C1 = new Cell(1, 1);
+    R1C2 = new Cell(1, 2);
+    R1C3 = new Cell(1, 3);
+    R2C1 = new Cell(2, 1);
+    R2C2 = new Cell(2, 2);
+    R2C3 = new Cell(2, 3);
+    R3C1 = new Cell(3, 1);
+    R3C2 = new Cell(3, 2);
+    R3C3 = new Cell(3, 3);
+
+    cells = new Cell[][] { { R1C1, R1C2, R1C3 }, { R2C1, R2C2, R2C3 }, { R3C1, R3C2, R3C3 } };
+
+    // Adiciona todas as celulas no board
+    for (int row = 0; row < cells.length; row++) {
+      for (int col = 0; col < cells[row].length; col++) {
+        cells[row][col].addActionListener(this);
+        cellsPanel.add(cells[row][col]);
+      }
+    }
+
+    // Adiciona o board no frame
+    board.add(cellsPanel, BorderLayout.PAGE_START);
+  }
+
+  public void initScore() {
+    scorePanel = new JPanel();
+    scorePanel.setLayout(new GridLayout(1, 2));
+
+    statusLabel = new JLabel(player1.getName() + " playing");
+
+    statusLabel.setHorizontalAlignment(JLabel.CENTER);
+    statusLabel.setVerticalAlignment(JLabel.CENTER);
+
+    scorePanel.add(statusLabel);
+
+    board.add(scorePanel, BorderLayout.PAGE_END);
+  }
+
+  public void initChecker() {
+    this.resultChecker = new BoardCheck(this);
+  }
+
+  public void drawBoard() {
+    // Adiciona o board ao frame
     add(board);
-
     // Ajusta automaticamente o tamanho da janela, alternativa ao setSize()
     pack();
-
     // Centraliza a janela
     setLocationRelativeTo(null);
+    // Termina a aplicação após fechar a janela
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+  }
 
-    // torna o board visivel
-    this.setVisible(true);
+  public void init() {
+    this.initCells();
+    this.initScore();
+    this.initChecker();
+    this.drawBoard();
+    this.state = Board.PLAYING;
   }
 }
 

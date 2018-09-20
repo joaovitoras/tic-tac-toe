@@ -11,7 +11,6 @@ public class Cell extends JButton {
   public Cell(int row, int col) {
     // Muda o tamanho da celula
     this.setPreferredSize(dimension);
-    this.setOpaque(true);
 
     // Muda a fonte da celula (tipo, peso e tamanho)
     this.setFont(font);
