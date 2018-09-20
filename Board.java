@@ -7,11 +7,7 @@ public class Board extends JFrame implements ActionListener {
   private Cell R1C1, R1C2, R1C3;
   private Cell R2C1, R2C2, R2C3;
   private Cell R3C1, R3C2, R3C3;
-  private Cell[] cells;
-  private Cell[][] cellsToWin;
-  private Cell[] row1, row2, row3;
-  private Cell[] col1, col2, col3;
-  private Cell[] diagonal, reverseDiagonal;
+  private Cell[][] cells;
   private Cell currentCell;
   private Player currentPlayer, player1, player2;
   private int state;
@@ -44,21 +40,18 @@ public class Board extends JFrame implements ActionListener {
     R3C2 = new Cell(3, 2);
     R3C3 = new Cell(3, 3);
 
-    row1 = new Cell[] { R1C1, R1C2, R1C3 };
-    row2 = new Cell[] { R2C1, R2C2, R2C3 };
-    row3 = new Cell[] { R3C1, R3C2, R3C3 };
-    col1 = new Cell[] { R1C1, R2C1, R3C1 };
-    col2 = new Cell[] { R1C2, R2C2, R3C2 };
-    col3 = new Cell[] { R1C3, R2C3, R3C3 };
-    diagonal = new Cell[] { R1C1, R2C2, R3C3 };
-    reverseDiagonal = new Cell[] { R1C3, R2C2, R3C1 };
-    cellsToWin = new Cell[][] {row1, row2, row3, col1, col2, col3, diagonal, reverseDiagonal};
-    cells = new Cell[] { R1C1, R1C2, R1C3, R2C1, R2C2, R2C3, R3C1, R3C2, R3C3 };
+    cells = new Cell[][] {
+      { R1C1, R1C2, R1C3 },
+      { R2C1, R2C2, R2C3 },
+      { R3C1, R3C2, R3C3 }
+    };
 
     // Adiciona todas as celulas no board
-    for (int i = 0; i < cells.length; i++) {
-      cells[i].addActionListener(this);
-      cellsPanel.add(cells[i]);
+    for (int row = 0; row < cells.length; row++) {
+      for (int col = 0; col < cells[row].length; col++) {
+        cells[row][col].addActionListener(this);
+        cellsPanel.add(cells[row][col]);
+      }
     }
 
     // Adiciona o board no frame
@@ -69,16 +62,12 @@ public class Board extends JFrame implements ActionListener {
     scorePanel = new JPanel();
     scorePanel.setLayout(new GridLayout(1, 2));
 
-    label1 = new JLabel(player1.getName());
-    JLabel label2 = new JLabel(player2.getName());
+    label1 = new JLabel(player1.getName() + " playing");
 
     label1.setHorizontalAlignment(JLabel.CENTER);
     label1.setVerticalAlignment(JLabel.CENTER);
-    label2.setHorizontalAlignment(JLabel.CENTER);
-    label2.setVerticalAlignment(JLabel.CENTER);
 
     scorePanel.add(label1);
-    scorePanel.add(label2);
 
     board.add(scorePanel, BorderLayout.PAGE_END);
   }
@@ -94,6 +83,7 @@ public class Board extends JFrame implements ActionListener {
 
   public void checkAndUpdateGameState() {
     checkMove();
+
     switch (this.state) {
       case Board.PLAYED:
         this.togglePlayer();
@@ -125,41 +115,67 @@ public class Board extends JFrame implements ActionListener {
   }
 
   public boolean hasWon() {
-    boolean won = false;
-
-    for (int i = 0; i < this.cellsToWin.length; i++) {
-      if (hasWinBy(cellsToWin[i])) {
-        won = true;
-        paintCells(cellsToWin[i]);
-      }
-    }
-
-    return won;
+    return (
+      wonBy("rows") || wonBy("cols")
+    );
   }
 
-  public boolean hasWinBy(Cell[] cells) {
-    int count = 0;
+  public boolean wonByCols() {
+    for (int col = 0; col < cells.length; col++) {
+      int occurrences = 0;
 
-    for (int i = 0; i < cells.length; i++) {
-      Player player = cells[i].getPlayer();
-
-      if (player != null && player == this.currentPlayer) {
-        count++;
-      } else {
-        break;
+      for (int row = 0; row < cells[col].length; row++) {
+        if (cells[row][col].getPlayer() == this.currentPlayer) {
+          occurrences++;
+        }
       }
-    }
 
-    if (count == 3) {
-      return true;
+      if (occurrences == 3) {
+        paintCells(new Cell[] {cells[0][col], cells[1][col], cells[2][col]});
+        return true;
+      }
     }
 
     return false;
   }
 
+  public boolean wonBy(String by) {
+    for (int row = 0; row < cells.length; row++) {
+      int occurrences = 0;
+
+      for (int col = 0; col < cells[row].length; col++) {
+        if (by.equals("rows")) {
+          if (cells[row][col].getPlayer() == this.currentPlayer) {
+            occurrences ++;
+          }
+        } else if (by.equals("cols")) {
+          if (cells[col][row].getPlayer() == this.currentPlayer) {
+            occurrences ++;
+          }
+        }
+
+
+      }
+
+      if (occurrences == 3) {
+        if (by.equals("rows")) {
+          paintCells(cells[row]);
+        } else if (by.equals("cols")) {
+          paintCells(new Cell[] { cells[0][row], cells[1][row], cells[2][row]});
+        }
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+
   public void finishGame() {
-    for (int i = 0; i < cells.length; i++) {
-      cells[i].setEnabled(false);
+    for (int row = 0; row < cells.length; row++) {
+      for (int col = 0; col < cells[row].length; col++) {
+        cells[row][col].setEnabled(false);
+      }
     }
   }
 
@@ -179,14 +195,11 @@ public class Board extends JFrame implements ActionListener {
 
   public void setPlayer1(Player player) {
     this.player1 = player;
+    this.currentPlayer = player;
   }
 
   public void setPlayer2(Player player) {
     this.player2 = player;
-  }
-
-  public void makePlayer1Current() {
-    this.currentPlayer = this.player1;
   }
 
   public void makeVisible() {

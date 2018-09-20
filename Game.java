@@ -14,7 +14,6 @@ public class Game {
 
     this.board.setPlayer1(player1);
     this.board.setPlayer2(player2);
-    this.board.makePlayer1Current();
   }
 
   private String playerDiloag(int number) {
@@ -42,7 +41,6 @@ public class Game {
     this.board.initScore();
     this.board.makeVisible();
   }
-
   public static void main(String args[]) {
     Game game = new Game();
     game.choosePlayers();
