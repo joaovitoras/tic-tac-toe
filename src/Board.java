@@ -12,14 +12,15 @@ public class Board extends JFrame implements ActionListener {
   private Player currentPlayer, player1, player2;
   private int state;
   private static final int PLAYING = 1;
-  private static final int PLAYED = 2;
   private static final int INVALID_MOVE = 3;
   private static final int WON = 4;
   private JLabel statusLabel;
   private BoardCheck resultChecker;
+  private Game game;
 
-  public Board() {
+  public Board(Game game) {
     setTitle("Johngo da Velha");
+    this.game = game;
     board = new JPanel();
     board.setLayout(new BorderLayout());
   }
@@ -35,11 +36,9 @@ public class Board extends JFrame implements ActionListener {
 
   public void checkAndUpdateGameState() {
     checkMoveAndUpdateState();
-
     switch (this.state) {
-      case Board.PLAYED:
-        this.togglePlayer();
-        this.state = Board.PLAYING;
+      case Board.PLAYING:
+      statusLabel.setText(this.currentPlayer.getMarker() + " Playing");
         break;
       case Board.INVALID_MOVE:
         statusLabel.setText("Jogada Invalida");
@@ -57,13 +56,16 @@ public class Board extends JFrame implements ActionListener {
   public void checkMoveAndUpdateState() {
     if (this.currentCell.isMarcable()) {
       this.currentCell.paint(this.currentPlayer);
-      this.state = Board.PLAYED;
+
+      if (this.resultChecker.hasWon()) {
+        this.state = Board.WON;
+      } else {
+        this.togglePlayer();
+        this.state = Board.PLAYING;
+      }
+
     } else {
       this.state = Board.INVALID_MOVE;
-    }
-
-    if (this.resultChecker.hasWon()) {
-      this.state = Board.WON;
     }
   }
 
@@ -138,7 +140,7 @@ public class Board extends JFrame implements ActionListener {
     scorePanel = new JPanel();
     scorePanel.setLayout(new GridLayout(1, 2));
 
-    statusLabel = new JLabel(player1.getName() + " playing");
+    statusLabel = new JLabel(player1.getMarker() + " Playing");
 
     statusLabel.setHorizontalAlignment(JLabel.CENTER);
     statusLabel.setVerticalAlignment(JLabel.CENTER);
@@ -160,7 +162,22 @@ public class Board extends JFrame implements ActionListener {
     // Centraliza a janela
     setLocationRelativeTo(null);
     // Termina a aplicação após fechar a janela
-    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    this.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            game.setVisible(true);
+            currentCell = null;
+            currentPlayer = null;
+            for (int row = 0; row < cells.length; row++) {
+              for (int col = 0; col < cells[row].length; col++) {
+                cells[row][col].clear();
+
+              }
+          }
+          dispose();
+        }
+    });
+
   }
 
   public void init() {

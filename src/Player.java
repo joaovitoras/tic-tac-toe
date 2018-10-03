@@ -1,17 +1,10 @@
 public class Player {
   private String marker;
   private String type;
-  private String name;
 
-  public Player(String marker, String type) {
+  public Player(String marker, String type, boolean robot) {
     this.marker = marker;
     this.type = type;
-    this.name = this.type + " " + this.marker;
-  }
-  public Player(String marker, String type, String name) {
-    this.marker = marker;
-    this.type = type;
-    this.name = name;
   }
 
   public String getMarker() {
@@ -20,9 +13,5 @@ public class Player {
 
   public String getType() {
     return this.type;
-  }
-
-  public String getName() {
-    return this.name;
   }
 }

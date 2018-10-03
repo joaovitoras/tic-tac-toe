@@ -34,6 +34,12 @@ public class Cell extends JButton {
     this.player = player;
     this.setText(player.getMarker());
   }
+  
+  public void clear() {
+	  this.setEnabled(true);
+	  this.player = null;
+	  this.setText(null);
+  }
 
   public boolean isMarcable() {
     return this.isEnabled();
