@@ -29,17 +29,12 @@ public class Cell extends JButton {
     return this.row;
   }
 
-  public void paint(Player player) {
+  public void mark(Player player) {
     this.setEnabled(false);
     this.player = player;
     this.setText(player.getMarker());
   }
-  
-  public void clear() {
-	  this.setEnabled(true);
-	  this.player = null;
-	  this.setText(null);
-  }
+
 
   public boolean isMarcable() {
     return this.isEnabled();

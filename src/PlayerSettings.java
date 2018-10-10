@@ -58,7 +58,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
 
     btnP1Human = new JButton("");
     btnP1Human.setFocusTraversalKeysEnabled(false);
-    btnP1Human.setEnabled(false);
+    btnP1Human.setEnabled(true);
     btnP1Human.setBounds(20, 120, 40, 40);
     btnP1Human.setIcon(human);
     btnP1Human.addActionListener(this);
@@ -73,7 +73,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
 
     btnP2Human = new JButton("");
     btnP2Human.setFocusTraversalKeysEnabled(false);
-    btnP2Human.setEnabled(false);
+    btnP2Human.setEnabled(true);
     btnP2Human.setBounds(110, 120, 40, 40);
     btnP2Human.setIcon(human);
     btnP2Human.addActionListener(this);
@@ -99,17 +99,17 @@ public class PlayerSettings extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == btnP1Human) {
-      btnP1Human.setEnabled(false);
-      btnP1Robot.setEnabled(true);
-    } else if (e.getSource() == btnP1Robot) {
       btnP1Human.setEnabled(true);
       btnP1Robot.setEnabled(false);
+    } else if (e.getSource() == btnP1Robot) {
+      btnP1Human.setEnabled(false);
+      btnP1Robot.setEnabled(true);
     } else if (e.getSource() == btnP2Human) {
-      btnP2Human.setEnabled(false);
-      btnP2Robot.setEnabled(true);
-    } else if (e.getSource() == btnP2Robot) {
       btnP2Human.setEnabled(true);
       btnP2Robot.setEnabled(false);
+    } else if (e.getSource() == btnP2Robot) {
+      btnP2Human.setEnabled(false);
+      btnP2Robot.setEnabled(true);
     } else if (e.getSource() == btnSalvar) {
       salvar();
       dispose();
@@ -119,12 +119,10 @@ public class PlayerSettings extends JFrame implements ActionListener {
   private void salvar() {
     game.setPlayer1(new Player(
       player1.getText(),
-      player1.getText(),
       btnP1Robot.isEnabled()
     ));
 
     game.setPlayer2(new Player(
-      player2.getText(),
       player2.getText(),
       btnP2Robot.isEnabled()
     ));

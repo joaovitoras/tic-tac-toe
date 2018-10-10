@@ -41,9 +41,6 @@ public class Game extends JFrame implements ActionListener {
 
     playerSettings = new PlayerSettings(this);
 
-    this.board = new Board(this);
-    this.board.setPlayer1(player1);
-    this.board.setPlayer2(player2);
     this.setResizable(false);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -52,13 +49,15 @@ public class Game extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == btnNovoJogo) {
+      this.board = new Board(this);
+      this.board.setPlayer1(player1);
+      this.board.setPlayer2(player2);
       this.board.setPlayer1(player1);
       this.board.setPlayer2(player2);
       this.board.init();
       this.start();
       this.setVisible(false);
     } else if (e.getSource() == btnJogadores) {
-      System.out.println("asd");
       playerSettings.setVisible(true);
     } else if (e.getSource() == btnSair) {
       System.exit(0);

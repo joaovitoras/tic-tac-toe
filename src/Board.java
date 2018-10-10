@@ -45,7 +45,7 @@ public class Board extends JFrame implements ActionListener {
         break;
       case Board.WON:
         paintCells(this.resultChecker.getWinnerCells());
-        this.statusLabel.setText(this.currentPlayer.getMarker() +  "won");
+        this.statusLabel.setText(this.currentPlayer.getMarker() +  "ganhou");
         this.finishGame();
         break;
       default:
@@ -55,7 +55,7 @@ public class Board extends JFrame implements ActionListener {
 
   public void checkMoveAndUpdateState() {
     if (this.currentCell.isMarcable()) {
-      this.currentCell.paint(this.currentPlayer);
+      this.currentCell.mark(this.currentPlayer);
 
       if (this.resultChecker.hasWon()) {
         this.state = Board.WON;
@@ -165,19 +165,10 @@ public class Board extends JFrame implements ActionListener {
     this.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-            game.setVisible(true);
-            currentCell = null;
-            currentPlayer = null;
-            for (int row = 0; row < cells.length; row++) {
-              for (int col = 0; col < cells[row].length; col++) {
-                cells[row][col].clear();
-
-              }
-          }
+          game.setVisible(true); 
           dispose();
         }
     });
-
   }
 
   public void init() {

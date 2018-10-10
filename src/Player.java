@@ -2,9 +2,8 @@ public class Player {
   private String marker;
   private String type;
 
-  public Player(String marker, String type, boolean robot) {
+  public Player(String marker, boolean robot) {
     this.marker = marker;
-    this.type = type;
   }
 
   public String getMarker() {
