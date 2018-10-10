@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Board extends JFrame implements ActionListener {
+  private static final long serialVersionUID = 1L;
   private JPanel board, scorePanel, cellsPanel;
   private Cell R1C1, R1C2, R1C3;
   private Cell R2C1, R2C2, R2C3;
@@ -10,27 +11,29 @@ public class Board extends JFrame implements ActionListener {
   private Cell[][] cells;
   private Cell currentCell;
   private Player currentPlayer, player1, player2;
-  private int state;
-  private static final int PLAYING = 1;
-  private static final int INVALID_MOVE = 3;
-  private static final int WON = 4;
   private JLabel statusLabel;
   private BoardCheck resultChecker;
-  private Game game;
-
+  
   public Board(Game game) {
     setTitle("Johngo da Velha");
-    this.game = game;
     board = new JPanel();
     board.setLayout(new BorderLayout());
-    this.player1 = this.currentPlayer = new Player("X", false);
-    this.player2 = new Player("O", false);
     this.initCells();
-    this.initScore();
-    this.initChecker();
-    this.drawBoard();
-    
 
+    // Adiciona o board ao frame
+    getContentPane().add(board);
+    // Ajusta automaticamente o tamanho da janela, alternativa ao setSize()
+    pack();
+    // Centraliza a janela
+    setLocationRelativeTo(null);
+    // Abre o menu inicial após fechar este frame
+    this.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+          game.setVisible(true);
+          dispose();
+        }
+    });
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -43,37 +46,18 @@ public class Board extends JFrame implements ActionListener {
   }
 
   public void checkAndUpdateGameState() {
-    checkMoveAndUpdateState();
-    switch (this.state) {
-      case Board.PLAYING:
-      statusLabel.setText(this.currentPlayer.getMarker() + " Playing");
-        break;
-      case Board.INVALID_MOVE:
-        statusLabel.setText("Jogada Invalida");
-        break;
-      case Board.WON:
-        paintCells(this.resultChecker.getWinnerCells());
-        this.statusLabel.setText(this.currentPlayer.getMarker() +  "ganhou");
-        this.finishGame();
-        break;
-      default:
-        break;
-    }
-  }
-
-  public void checkMoveAndUpdateState() {
     if (this.currentCell.isMarcable()) {
+      this.currentPlayer.getMarker();
       this.currentCell.mark(this.currentPlayer);
 
       if (this.resultChecker.hasWon()) {
-        this.state = Board.WON;
+        paintCells(this.resultChecker.getWinnerCells());
+        this.statusLabel.setText(this.currentPlayer.getMarker() +  "ganhou");
+        this.finishGame();
       } else {
         this.togglePlayer();
-        this.state = Board.PLAYING;
+        statusLabel.setText(this.currentPlayer.getMarker() + " Playing");
       }
-
-    } else {
-      this.state = Board.INVALID_MOVE;
     }
   }
 
@@ -132,19 +116,32 @@ public class Board extends JFrame implements ActionListener {
 
     cells = new Cell[][] { { R1C1, R1C2, R1C3 }, { R2C1, R2C2, R2C3 }, { R3C1, R3C2, R3C3 } };
 
-    // Adiciona todas as celulas no board
-    for (int row = 0; row < cells.length; row++) {
-      for (int col = 0; col < cells[row].length; col++) {
-        cells[row][col].addActionListener(this);
-        cellsPanel.add(cells[row][col]);
-      }
-    }
+    R1C1.addActionListener(this);
+    R1C2.addActionListener(this);
+    R1C3.addActionListener(this);
+    R2C1.addActionListener(this);
+    R2C2.addActionListener(this);
+    R2C3.addActionListener(this);
+    R3C1.addActionListener(this);
+    R3C2.addActionListener(this);
+    R3C3.addActionListener(this);
+
+    cellsPanel.add(R1C1);
+    cellsPanel.add(R1C2);
+    cellsPanel.add(R1C3);
+    cellsPanel.add(R2C1);
+    cellsPanel.add(R2C2);
+    cellsPanel.add(R2C3);
+    cellsPanel.add(R3C1);
+    cellsPanel.add(R3C2);
+    cellsPanel.add(R3C3);
 
     // Adiciona o board no frame
     board.add(cellsPanel, BorderLayout.PAGE_START);
   }
 
-  public void initScore() {
+  public void init() {
+    resultChecker = new BoardCheck(this);
     scorePanel = new JPanel();
     scorePanel.setLayout(new GridLayout(1, 2));
     statusLabel = new JLabel(player1.getMarker() + " Playing");
@@ -152,31 +149,6 @@ public class Board extends JFrame implements ActionListener {
     statusLabel.setVerticalAlignment(JLabel.CENTER);
     scorePanel.add(statusLabel);
     board.add(scorePanel, BorderLayout.PAGE_END);
-  }
-
-  public void initChecker() {
-    this.resultChecker = new BoardCheck(this);
-  }
-
-  public void drawBoard() {
-    // Adiciona o board ao frame
-    add(board);
-    // Ajusta automaticamente o tamanho da janela, alternativa ao setSize()
-    pack();
-    // Centraliza a janela
-    setLocationRelativeTo(null);
-    // Termina a aplicação após fechar a janela
-    this.addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(WindowEvent e) {
-          game.setVisible(true); 
-          dispose();
-        }
-    });
-  }
-
-  public void init() {
-    this.state = Board.PLAYING;
+    setVisible(true);
   }
 }
-

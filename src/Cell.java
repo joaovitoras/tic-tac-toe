@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Cell extends JButton {
+  private static final long serialVersionUID = 1L;
   private Font font = new Font("Avenir", Font.PLAIN, 40);
   private Dimension dimension = new Dimension(80, 80);
   private Player player;

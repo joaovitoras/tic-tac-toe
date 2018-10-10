@@ -40,6 +40,8 @@ public class Game extends JFrame implements ActionListener {
     btnJogadores.addActionListener(this);
     getContentPane().add(btnJogadores);
 
+    this.player1 = new Player("✕", false);
+    this.player2 = new Player("O", false);
     playerSettings = new PlayerSettings(this);
 
     this.setResizable(false);
@@ -50,14 +52,7 @@ public class Game extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == btnNovoJogo) {
-      this.board = new Board(this);
-      this.board.setPlayer1(player1);
-      this.board.setPlayer2(player2);
-      this.board.setPlayer1(player1);
-      this.board.setPlayer2(player2);
-      this.board.init();
-      this.start();
-      this.setVisible(false);
+      start();
     } else if (e.getSource() == btnJogadores) {
       playerSettings.setVisible(true);
     } else if (e.getSource() == btnSair) {
@@ -72,9 +67,21 @@ public class Game extends JFrame implements ActionListener {
   public void setPlayer2(Player player) {
     this.player2 = player;
   }
+  
+  public Player getPlayer1() {
+    return this.player1;
+  }
+
+  public Player getPlayer2() {
+    return this.player2;
+  }
 
   public void start() {
-    this.board.setVisible(true);
+    this.board = new Board(this);
+    this.board.setPlayer1(this.player1);
+    this.board.setPlayer2(this.player2);
+    this.board.init();
+    this.setVisible(false);
   }
 
   public static void main(String[] args) {

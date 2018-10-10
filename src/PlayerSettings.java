@@ -1,10 +1,13 @@
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 public class PlayerSettings extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
@@ -25,7 +28,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
     player1 = new JTextField();
     player1.setFocusTraversalKeysEnabled(false);
     player1.setHorizontalAlignment(SwingConstants.CENTER);
-    player1.setText("✕");
+    player1.setText(game.getPlayer1().getMarker());
     player1.setFont(new Font("Avenir", Font.PLAIN, 40));
     player1.setBounds(20, 40, 80, 80);
     getContentPane().add(player1);
@@ -34,7 +37,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
     player2 = new JTextField();
     player2.setFocusTraversalKeysEnabled(false);
     player2.setHorizontalAlignment(SwingConstants.CENTER);
-    player2.setText("O");
+    player2.setText(game.getPlayer2().getMarker());
     player2.setFont(new Font("Avenir", Font.PLAIN, 40));
     player2.setColumns(10);
     player2.setBounds(110, 40, 80, 80);
@@ -56,22 +59,19 @@ public class PlayerSettings extends JFrame implements ActionListener {
     human = new ImageIcon(human.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT));
 
     btnP1Human = new JButton("");
-    btnP1Human.setFocusTraversalKeysEnabled(false);
-    btnP1Human.setEnabled(true);
     btnP1Human.setBounds(20, 120, 40, 40);
     btnP1Human.setIcon(human);
     btnP1Human.addActionListener(this);
     getContentPane().add(btnP1Human);
 
     btnP1Robot = new JButton("");
-    btnP1Robot.setFocusTraversalKeysEnabled(false);
     btnP1Robot.setBounds(60, 120, 40, 40);
+    btnP1Robot.setBorderPainted(false);
     btnP1Robot.setIcon(robot);
     btnP1Robot.addActionListener(this);
     getContentPane().add(btnP1Robot);
 
     btnP2Human = new JButton("");
-    btnP2Human.setFocusTraversalKeysEnabled(false);
     btnP2Human.setEnabled(true);
     btnP2Human.setBounds(110, 120, 40, 40);
     btnP2Human.setIcon(human);
@@ -79,12 +79,12 @@ public class PlayerSettings extends JFrame implements ActionListener {
     getContentPane().add(btnP2Human);
 
     btnP2Robot = new JButton("");
-    btnP2Robot.setFocusTraversalKeysEnabled(false);
     btnP2Robot.setBounds(150, 120, 40, 40);
+    btnP2Robot.setBorderPainted(false);
     btnP2Robot.setIcon(robot);
     btnP2Robot.addActionListener(this);
     getContentPane().add(btnP2Robot);
-    
+
     btnSalvar = new JButton("Salvar");
     btnSalvar.setBounds(20, 172, 170, 29);
     btnSalvar.addActionListener(this);
@@ -98,23 +98,24 @@ public class PlayerSettings extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == btnP1Human) {
-      btnP1Human.setEnabled(true);
-      btnP1Robot.setEnabled(false);
+      togglePlayerButtonBorder(btnP1Human, btnP1Robot, false);
     } else if (e.getSource() == btnP1Robot) {
-      btnP1Human.setEnabled(false);
-      btnP1Robot.setEnabled(true);
+      togglePlayerButtonBorder(btnP1Human, btnP1Robot, true);
     } else if (e.getSource() == btnP2Human) {
-      btnP2Human.setEnabled(true);
-      btnP2Robot.setEnabled(false);
+      togglePlayerButtonBorder(btnP2Human, btnP2Robot, false);
     } else if (e.getSource() == btnP2Robot) {
-      btnP2Human.setEnabled(false);
-      btnP2Robot.setEnabled(true);
+      togglePlayerButtonBorder(btnP2Human, btnP2Robot, true);
     } else if (e.getSource() == btnSalvar) {
       salvar();
       dispose();
     }
   }
-  
+
+  public void togglePlayerButtonBorder(JButton human, JButton bot, boolean isBotSelected) {
+    human.setBorderPainted(!isBotSelected);
+    bot.setBorderPainted(isBotSelected);
+  }
+
   private void salvar() {
     game.setPlayer1(new Player(
       player1.getText(),
