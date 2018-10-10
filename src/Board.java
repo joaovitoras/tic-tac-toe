@@ -23,6 +23,14 @@ public class Board extends JFrame implements ActionListener {
     this.game = game;
     board = new JPanel();
     board.setLayout(new BorderLayout());
+    this.player1 = this.currentPlayer = new Player("X", false);
+    this.player2 = new Player("O", false);
+    this.initCells();
+    this.initScore();
+    this.initChecker();
+    this.drawBoard();
+    
+
   }
 
   public void actionPerformed(ActionEvent e) {
@@ -139,14 +147,10 @@ public class Board extends JFrame implements ActionListener {
   public void initScore() {
     scorePanel = new JPanel();
     scorePanel.setLayout(new GridLayout(1, 2));
-
     statusLabel = new JLabel(player1.getMarker() + " Playing");
-
     statusLabel.setHorizontalAlignment(JLabel.CENTER);
     statusLabel.setVerticalAlignment(JLabel.CENTER);
-
     scorePanel.add(statusLabel);
-
     board.add(scorePanel, BorderLayout.PAGE_END);
   }
 
@@ -172,10 +176,6 @@ public class Board extends JFrame implements ActionListener {
   }
 
   public void init() {
-    this.initCells();
-    this.initScore();
-    this.initChecker();
-    this.drawBoard();
     this.state = Board.PLAYING;
   }
 }

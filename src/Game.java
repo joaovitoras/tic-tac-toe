@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 
 public class Game extends JFrame implements ActionListener {
+  private static final long serialVersionUID = 1L;
   private Board board;
   private JLabel lblJogoDaVelha;
   private JButton btnNovoJogo;
