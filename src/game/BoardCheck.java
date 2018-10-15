@@ -1,3 +1,4 @@
+package game;
 public class BoardCheck {
   private Board board;
   private Cell[][] cells;

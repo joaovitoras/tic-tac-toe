@@ -1,3 +1,4 @@
+package game;
 public class Player {
   private String marker;
   private String type;
