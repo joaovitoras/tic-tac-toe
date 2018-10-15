@@ -1,9 +1,9 @@
-package game;
-public class Player {
+package game.views;
+public class Jogador {
   private String marker;
   private String type;
 
-  public Player(String marker, boolean robot) {
+  public Jogador(String marker, boolean robot) {
     this.marker = marker;
   }
 

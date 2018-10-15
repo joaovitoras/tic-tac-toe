@@ -1,15 +1,15 @@
-package game;
+package game.views;
 import javax.swing.*;
 import java.awt.*;
 
-public class Cell extends JButton {
+public class Celula extends JButton {
   private static final long serialVersionUID = 1L;
   private Font font = new Font("Avenir", Font.PLAIN, 40);
   private Dimension dimension = new Dimension(80, 80);
-  private Player player;
+  private Jogador jogador;
   private int row, col;
 
-  public Cell(int row, int col) {
+  public Celula(int row, int col) {
     // Muda o tamanho da celula
     this.setPreferredSize(dimension);
     this.setOpaque(true);
@@ -19,8 +19,8 @@ public class Cell extends JButton {
     this.col = col;
   }
 
-  public Player getPlayer() {
-    return this.player;
+  public Jogador getPlayer() {
+    return this.jogador;
   }
 
   public int getCol() {
@@ -31,10 +31,10 @@ public class Cell extends JButton {
     return this.row;
   }
 
-  public void mark(Player player) {
+  public void mark(Jogador jogador) {
     this.setEnabled(false);
-    this.player = player;
-    this.setText(player.getMarker());
+    this.jogador = jogador;
+    this.setText(jogador.getMarker());
   }
 
 

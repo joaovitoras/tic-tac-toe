@@ -1,4 +1,4 @@
-package game;
+package game.views;
 import javax.swing.*;
 
 import java.awt.Color;
@@ -10,18 +10,18 @@ import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-public class PlayerSettings extends JFrame implements ActionListener {
+public class Configuracoes extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JTextField player1;
   private JTextField player2;
-  private Game game;
+  private Principal principal;
   private JButton btnP1Human;
   private JButton btnP1Robot;
   private JButton btnP2Human;
   private JButton btnP2Robot;
   private JButton btnSalvar;
 
-  public PlayerSettings(Game game) {
+  public Configuracoes(Principal principal) {
     getContentPane().setFocusTraversalKeysEnabled(false);
     this.setBounds(new Rectangle(0, 0, 210, 240));
     getContentPane().setLayout(null);
@@ -29,7 +29,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
     player1 = new JTextField();
     player1.setFocusTraversalKeysEnabled(false);
     player1.setHorizontalAlignment(SwingConstants.CENTER);
-    player1.setText(game.getPlayer1().getMarker());
+    player1.setText(principal.getPlayer1().getMarker());
     player1.setFont(new Font("Avenir", Font.PLAIN, 40));
     player1.setBounds(20, 40, 80, 80);
     getContentPane().add(player1);
@@ -38,7 +38,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
     player2 = new JTextField();
     player2.setFocusTraversalKeysEnabled(false);
     player2.setHorizontalAlignment(SwingConstants.CENTER);
-    player2.setText(game.getPlayer2().getMarker());
+    player2.setText(principal.getPlayer2().getMarker());
     player2.setFont(new Font("Avenir", Font.PLAIN, 40));
     player2.setColumns(10);
     player2.setBounds(110, 40, 80, 80);
@@ -54,9 +54,9 @@ public class PlayerSettings extends JFrame implements ActionListener {
     lblPlayer_1.setBounds(110, 20, 79, 16);
     getContentPane().add(lblPlayer_1);
 
-    ImageIcon robot = new ImageIcon(PlayerSettings.class.getResource("/images/robot.png"));
+    ImageIcon robot = new ImageIcon(Configuracoes.class.getResource("/images/robot.png"));
     robot = new ImageIcon(robot.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT));
-    ImageIcon human = new ImageIcon(PlayerSettings.class.getResource("/images/person.png"));
+    ImageIcon human = new ImageIcon(Configuracoes.class.getResource("/images/person.png"));
     human = new ImageIcon(human.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT));
 
     btnP1Human = new JButton("");
@@ -91,7 +91,7 @@ public class PlayerSettings extends JFrame implements ActionListener {
     btnSalvar.addActionListener(this);
     getContentPane().add(btnSalvar);
 
-    this.game = game;
+    this.principal = principal;
     this.setResizable(false);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -118,12 +118,12 @@ public class PlayerSettings extends JFrame implements ActionListener {
   }
 
   private void salvar() {
-    game.setPlayer1(new Player(
+    principal.setPlayer1(new Jogador(
       player1.getText(),
       btnP1Robot.isEnabled()
     ));
 
-    game.setPlayer2(new Player(
+    principal.setPlayer2(new Jogador(
       player2.getText(),
       btnP2Robot.isEnabled()
     ));

@@ -1,21 +1,24 @@
-package game;
+package game.views;
 import javax.swing.*;
+
+import game.auxiliar.VerificadorResultado;
+
 import java.awt.*;
 import java.awt.event.*;
 
-public class Board extends JFrame implements ActionListener {
+public class Tabuleiro extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JPanel board, scorePanel, cellsPanel;
-  private Cell R1C1, R1C2, R1C3;
-  private Cell R2C1, R2C2, R2C3;
-  private Cell R3C1, R3C2, R3C3;
-  private Cell[][] cells;
-  private Cell currentCell;
-  private Player currentPlayer, player1, player2;
+  private Celula R1C1, R1C2, R1C3;
+  private Celula R2C1, R2C2, R2C3;
+  private Celula R3C1, R3C2, R3C3;
+  private Celula[][] celulas;
+  private Celula currentCell;
+  private Jogador currentPlayer, player1, player2;
   private JLabel statusLabel;
-  private BoardCheck resultChecker;
+  private VerificadorResultado resultChecker;
   
-  public Board(Game game) {
+  public Tabuleiro(Principal principal) {
     setTitle("Johngo da Velha");
     board = new JPanel();
     board.setLayout(new BorderLayout());
@@ -31,7 +34,7 @@ public class Board extends JFrame implements ActionListener {
     this.addWindowListener(new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
-          game.setVisible(true);
+          principal.setVisible(true);
           dispose();
         }
     });
@@ -40,8 +43,8 @@ public class Board extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
-    if (obj instanceof Cell) {
-      this.currentCell = (Cell) obj;
+    if (obj instanceof Celula) {
+      this.currentCell = (Celula) obj;
       checkAndUpdateGameState();
     }
   }
@@ -63,14 +66,14 @@ public class Board extends JFrame implements ActionListener {
   }
 
   public void finishGame() {
-    for (int row = 0; row < cells.length; row++) {
-      for (int col = 0; col < cells[row].length; col++) {
-        cells[row][col].setEnabled(false);
+    for (int row = 0; row < celulas.length; row++) {
+      for (int col = 0; col < celulas[row].length; col++) {
+        celulas[row][col].setEnabled(false);
       }
     }
   }
 
-  public void paintCells(Cell[] cells) {
+  public void paintCells(Celula[] cells) {
     for (int i = 0; i < cells.length; i++) {
       cells[i].setBackground(Color.GREEN);
     }
@@ -84,20 +87,20 @@ public class Board extends JFrame implements ActionListener {
     }
   }
 
-  public void setPlayer1(Player player) {
-    this.player1 = player;
-    this.currentPlayer = player;
+  public void setPlayer1(Jogador jogador) {
+    this.player1 = jogador;
+    this.currentPlayer = jogador;
   }
 
-  public void setPlayer2(Player player) {
-    this.player2 = player;
+  public void setPlayer2(Jogador jogador) {
+    this.player2 = jogador;
   }
 
-  public Cell[][] getCells() {
-    return this.cells;
+  public Celula[][] getCells() {
+    return this.celulas;
   }
 
-  public Player getCurrentPlayer() {
+  public Jogador getCurrentPlayer() {
     return this.currentPlayer;
   }
 
@@ -105,17 +108,17 @@ public class Board extends JFrame implements ActionListener {
     cellsPanel = new JPanel();
     cellsPanel.setLayout(new GridLayout(3, 3));
 
-    R1C1 = new Cell(1, 1);
-    R1C2 = new Cell(1, 2);
-    R1C3 = new Cell(1, 3);
-    R2C1 = new Cell(2, 1);
-    R2C2 = new Cell(2, 2);
-    R2C3 = new Cell(2, 3);
-    R3C1 = new Cell(3, 1);
-    R3C2 = new Cell(3, 2);
-    R3C3 = new Cell(3, 3);
+    R1C1 = new Celula(1, 1);
+    R1C2 = new Celula(1, 2);
+    R1C3 = new Celula(1, 3);
+    R2C1 = new Celula(2, 1);
+    R2C2 = new Celula(2, 2);
+    R2C3 = new Celula(2, 3);
+    R3C1 = new Celula(3, 1);
+    R3C2 = new Celula(3, 2);
+    R3C3 = new Celula(3, 3);
 
-    cells = new Cell[][] { { R1C1, R1C2, R1C3 }, { R2C1, R2C2, R2C3 }, { R3C1, R3C2, R3C3 } };
+    celulas = new Celula[][] { { R1C1, R1C2, R1C3 }, { R2C1, R2C2, R2C3 }, { R3C1, R3C2, R3C3 } };
 
     R1C1.addActionListener(this);
     R1C2.addActionListener(this);
@@ -142,7 +145,7 @@ public class Board extends JFrame implements ActionListener {
   }
 
   public void init() {
-    resultChecker = new BoardCheck(this);
+    resultChecker = new VerificadorResultado(this);
     scorePanel = new JPanel();
     scorePanel.setLayout(new GridLayout(1, 2));
     statusLabel = new JLabel(player1.getMarker() + " Playing");

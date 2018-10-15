@@ -1,22 +1,22 @@
-package game;
+package game.views;
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 
-public class Game extends JFrame implements ActionListener {
+public class Principal extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private Board board;
+  private Tabuleiro tabuleiro;
   private JLabel lblJogoDaVelha;
   private JButton btnNovoJogo;
   private JButton btnSair;
   private JButton btnJogadores;
-  private PlayerSettings playerSettings;
-  private Player player1;
-  private Player player2;
+  private Configuracoes configuracoes;
+  private Jogador player1;
+  private Jogador player2;
 
-  public Game() {
+  public Principal() {
     this.setBounds(new Rectangle(0, 0, 200, 280));
     this.getContentPane().setLayout(null);
 
@@ -41,9 +41,9 @@ public class Game extends JFrame implements ActionListener {
     btnJogadores.addActionListener(this);
     getContentPane().add(btnJogadores);
 
-    this.player1 = new Player("✕", false);
-    this.player2 = new Player("O", false);
-    playerSettings = new PlayerSettings(this);
+    this.player1 = new Jogador("✕", false);
+    this.player2 = new Jogador("O", false);
+    configuracoes = new Configuracoes(this);
 
     this.setResizable(false);
     this.setLocationRelativeTo(null);
@@ -55,37 +55,37 @@ public class Game extends JFrame implements ActionListener {
     if (e.getSource() == btnNovoJogo) {
       start();
     } else if (e.getSource() == btnJogadores) {
-      playerSettings.setVisible(true);
+      configuracoes.setVisible(true);
     } else if (e.getSource() == btnSair) {
       System.exit(0);
     }
   }
 
-  public void setPlayer1(Player player) {
-    this.player1 = player;
+  public void setPlayer1(Jogador jogador) {
+    this.player1 = jogador;
   }
 
-  public void setPlayer2(Player player) {
-    this.player2 = player;
+  public void setPlayer2(Jogador jogador) {
+    this.player2 = jogador;
   }
   
-  public Player getPlayer1() {
+  public Jogador getPlayer1() {
     return this.player1;
   }
 
-  public Player getPlayer2() {
+  public Jogador getPlayer2() {
     return this.player2;
   }
 
   public void start() {
-    this.board = new Board(this);
-    this.board.setPlayer1(this.player1);
-    this.board.setPlayer2(this.player2);
-    this.board.init();
+    this.tabuleiro = new Tabuleiro(this);
+    this.tabuleiro.setPlayer1(this.player1);
+    this.tabuleiro.setPlayer2(this.player2);
+    this.tabuleiro.init();
     this.setVisible(false);
   }
 
   public static void main(String[] args) {
-    new Game();
+    new Principal();
   }
 }
