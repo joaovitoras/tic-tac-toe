@@ -1,4 +1,4 @@
-package game.views;
+package views;
 public class Jogador {
   private String marker;
   private String type;

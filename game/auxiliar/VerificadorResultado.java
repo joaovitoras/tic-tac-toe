@@ -1,16 +1,17 @@
-package game.auxiliar;
+package auxiliar;
 
-import game.views.Celula;
-import game.views.Tabuleiro;
+import models.TabuleiroModel;
+import views.TabuleiroView;
 
 public class VerificadorResultado {
-  private Tabuleiro tabuleiro;
   private Celula[][] celulas;
   private Celula[] winnerCells;
+  private TabuleiroModel model;
+  private TabuleiroView view;
 
-  public VerificadorResultado(Tabuleiro tabuleiro) {
-    this.tabuleiro = tabuleiro;
-    this.celulas = tabuleiro.getCells();
+  public VerificadorResultado(TabuleiroModel model) {
+    this.model = model;
+    this.celulas = model.getCelulas();
   }
 
   public boolean hasWon() {
@@ -18,16 +19,17 @@ public class VerificadorResultado {
   }
 
   public boolean wonBy(String by) {
+    System.out.println(celulas.length);
     for (int row = 0; row < celulas.length; row++) {
       int occurrences = 0;
 
       for (int col = 0; col < celulas[row].length; col++) {
         if (by.equals("rows")) {
-          if (celulas[row][col].getPlayer() == tabuleiro.getCurrentPlayer()) {
+          if (celulas[row][col].getPlayer() == model.getJogadorAtual()) {
             occurrences++;
           }
         } else if (by.equals("cols")) {
-          if (celulas[col][row].getPlayer() == tabuleiro.getCurrentPlayer()) {
+          if (celulas[col][row].getPlayer() == model.getJogadorAtual()) {
             occurrences++;
           }
         }
@@ -48,9 +50,9 @@ public class VerificadorResultado {
   }
 
   public boolean wonByDiagonal() {
-    boolean firstCell = celulas[0][0].getPlayer() == tabuleiro.getCurrentPlayer();
-    boolean secondCell = celulas[1][1].getPlayer() == tabuleiro.getCurrentPlayer();
-    boolean thirdCell = celulas[2][2].getPlayer() == tabuleiro.getCurrentPlayer();
+    boolean firstCell = celulas[0][0].getPlayer() == model.getJogadorAtual();
+    boolean secondCell = celulas[1][1].getPlayer() == model.getJogadorAtual();
+    boolean thirdCell = celulas[2][2].getPlayer() == model.getJogadorAtual();
 
     if (firstCell && secondCell && thirdCell) {
       this.winnerCells = new Celula[] { celulas[0][0], celulas[1][1], celulas[2][2] };
@@ -61,9 +63,9 @@ public class VerificadorResultado {
   }
 
   public boolean wonByInverseDiagonal() {
-    boolean firstCell = celulas[0][2].getPlayer() == tabuleiro.getCurrentPlayer();
-    boolean secondCell = celulas[1][1].getPlayer() == tabuleiro.getCurrentPlayer();
-    boolean thirdCell = celulas[2][0].getPlayer() == tabuleiro.getCurrentPlayer();
+    boolean firstCell = celulas[0][2].getPlayer() == model.getJogadorAtual();
+    boolean secondCell = celulas[1][1].getPlayer() == model.getJogadorAtual();
+    boolean thirdCell = celulas[2][0].getPlayer() == model.getJogadorAtual();
 
     if (firstCell && secondCell && thirdCell) {
       this.winnerCells = new Celula[] { celulas[0][2], celulas[1][1], celulas[2][0] };

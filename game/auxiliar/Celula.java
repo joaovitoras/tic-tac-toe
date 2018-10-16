@@ -1,5 +1,8 @@
-package game.views;
+package auxiliar;
 import javax.swing.*;
+
+import views.Jogador;
+
 import java.awt.*;
 
 public class Celula extends JButton {

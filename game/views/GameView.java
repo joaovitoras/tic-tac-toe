@@ -1,13 +1,14 @@
-package game.views;
+package views;
 import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
+import models.GameModel;
 
-public class Principal extends JFrame implements ActionListener {
+public class GameView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private Tabuleiro tabuleiro;
   private JLabel lblJogoDaVelha;
   private JButton btnNovoJogo;
   private JButton btnSair;
@@ -15,8 +16,10 @@ public class Principal extends JFrame implements ActionListener {
   private Configuracoes configuracoes;
   private Jogador player1;
   private Jogador player2;
+  private GameModel model;
 
-  public Principal() {
+  public GameView(GameModel model) {
+    this.model = model;
     this.setBounds(new Rectangle(0, 0, 200, 280));
     this.getContentPane().setLayout(null);
 
@@ -28,7 +31,6 @@ public class Principal extends JFrame implements ActionListener {
 
     btnNovoJogo = new JButton("Novo Jogo");
     btnNovoJogo.setBounds(40, 70, 120, 46);
-    btnNovoJogo.addActionListener(this);
     this.getContentPane().add(btnNovoJogo);
 
     btnSair = new JButton("Sair");
@@ -48,13 +50,10 @@ public class Principal extends JFrame implements ActionListener {
     this.setResizable(false);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    this.setVisible(true);
   }
 
   public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == btnNovoJogo) {
-      start();
-    } else if (e.getSource() == btnJogadores) {
+    if (e.getSource() == btnJogadores) {
       configuracoes.setVisible(true);
     } else if (e.getSource() == btnSair) {
       System.exit(0);
@@ -76,16 +75,13 @@ public class Principal extends JFrame implements ActionListener {
   public Jogador getPlayer2() {
     return this.player2;
   }
-
-  public void start() {
-    this.tabuleiro = new Tabuleiro(this);
-    this.tabuleiro.setPlayer1(this.player1);
-    this.tabuleiro.setPlayer2(this.player2);
-    this.tabuleiro.init();
-    this.setVisible(false);
+  
+  public void addNovoJogoListener(ActionListener listener) {
+    btnNovoJogo.addActionListener(listener);
   }
 
-  public static void main(String[] args) {
-    new Principal();
+  public void setFinishGameListener(WindowAdapter finishGameListener) {
+    this.addWindowListener(finishGameListener);
+    
   }
 }

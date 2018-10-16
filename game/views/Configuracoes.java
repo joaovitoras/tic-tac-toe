@@ -1,4 +1,4 @@
-package game.views;
+package views;
 import javax.swing.*;
 
 import java.awt.Color;
@@ -14,14 +14,14 @@ public class Configuracoes extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JTextField player1;
   private JTextField player2;
-  private Principal principal;
+  private GameView gameView;
   private JButton btnP1Human;
   private JButton btnP1Robot;
   private JButton btnP2Human;
   private JButton btnP2Robot;
   private JButton btnSalvar;
 
-  public Configuracoes(Principal principal) {
+  public Configuracoes(GameView gameView) {
     getContentPane().setFocusTraversalKeysEnabled(false);
     this.setBounds(new Rectangle(0, 0, 210, 240));
     getContentPane().setLayout(null);
@@ -29,7 +29,7 @@ public class Configuracoes extends JFrame implements ActionListener {
     player1 = new JTextField();
     player1.setFocusTraversalKeysEnabled(false);
     player1.setHorizontalAlignment(SwingConstants.CENTER);
-    player1.setText(principal.getPlayer1().getMarker());
+    player1.setText(gameView.getPlayer1().getMarker());
     player1.setFont(new Font("Avenir", Font.PLAIN, 40));
     player1.setBounds(20, 40, 80, 80);
     getContentPane().add(player1);
@@ -38,7 +38,7 @@ public class Configuracoes extends JFrame implements ActionListener {
     player2 = new JTextField();
     player2.setFocusTraversalKeysEnabled(false);
     player2.setHorizontalAlignment(SwingConstants.CENTER);
-    player2.setText(principal.getPlayer2().getMarker());
+    player2.setText(gameView.getPlayer2().getMarker());
     player2.setFont(new Font("Avenir", Font.PLAIN, 40));
     player2.setColumns(10);
     player2.setBounds(110, 40, 80, 80);
@@ -91,7 +91,7 @@ public class Configuracoes extends JFrame implements ActionListener {
     btnSalvar.addActionListener(this);
     getContentPane().add(btnSalvar);
 
-    this.principal = principal;
+    this.gameView = gameView;
     this.setResizable(false);
     this.setLocationRelativeTo(null);
     this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -118,12 +118,12 @@ public class Configuracoes extends JFrame implements ActionListener {
   }
 
   private void salvar() {
-    principal.setPlayer1(new Jogador(
+    gameView.setPlayer1(new Jogador(
       player1.getText(),
       btnP1Robot.isEnabled()
     ));
 
-    principal.setPlayer2(new Jogador(
+    gameView.setPlayer2(new Jogador(
       player2.getText(),
       btnP2Robot.isEnabled()
     ));
