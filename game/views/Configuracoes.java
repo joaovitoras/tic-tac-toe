@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import models.Jogador;
+
 public class Configuracoes extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JTextField player1;

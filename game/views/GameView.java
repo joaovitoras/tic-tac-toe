@@ -1,11 +1,13 @@
 package views;
 import javax.swing.*;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 import models.GameModel;
+import models.Jogador;
 
 public class GameView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;

@@ -1,7 +1,6 @@
 package models;
 
 import auxiliar.Celula;
-import views.Jogador;
 
 public class TabuleiroModel {
   private Celula[][] celulas;

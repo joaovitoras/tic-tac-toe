@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import models.Jogador;
 import models.TabuleiroModel;
-import views.Jogador;
 import views.TabuleiroView;
 
 public class TabuleiroController {

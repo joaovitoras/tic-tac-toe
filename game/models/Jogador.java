@@ -1,4 +1,4 @@
-package views;
+package models;
 public class Jogador {
   private String marker;
   private String type;

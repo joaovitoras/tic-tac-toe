@@ -5,6 +5,8 @@ import auxiliar.VerificadorResultado;
 
 import java.awt.*;
 import java.awt.event.*;
+
+import models.Jogador;
 import models.TabuleiroModel;
 public class TabuleiroView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;

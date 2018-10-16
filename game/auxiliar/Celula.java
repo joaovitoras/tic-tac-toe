@@ -1,7 +1,7 @@
 package auxiliar;
 import javax.swing.*;
 
-import views.Jogador;
+import models.Jogador;
 
 import java.awt.*;
 
