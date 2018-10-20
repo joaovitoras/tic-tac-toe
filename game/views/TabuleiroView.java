@@ -1,30 +1,69 @@
 package views;
 import javax.swing.*;
-import auxiliar.Celula;
-import auxiliar.VerificadorResultado;
 
 import java.awt.*;
 import java.awt.event.*;
 
 import models.Jogador;
 import models.TabuleiroModel;
+import src.Celula;
+import src.VerificadorResultado;
 public class TabuleiroView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
-  private JPanel board, scorePanel, cellsPanel;
+  private JPanel board, sideBar, cellsPanel;
   private Celula L1C1, L1C2, L1C3;
   private Celula L2C1, L2C2, L2C3;
   private Celula L3C1, L3C2, L3C3;
   private Celula[][] celulas;
-  private JLabel statusLabel;
   private VerificadorResultado resultChecker;
   private TabuleiroModel model;
-
+  private JLabel lblPlayer2;
+  private JLabel lblPlayer1;
+  private JLabel turn;
+  private JButton novoJogo;
+  private JButton menu;
+  private Font font = new Font("Avenir", Font.PLAIN, 30);
+ 
   public TabuleiroView(TabuleiroModel model) {
     this.model = model;
     setTitle("Johngo da Velha");
     board = new JPanel();
-    board.setLayout(new BorderLayout());
     this.initCells();
+    getContentPane().setLayout(new FlowLayout());
+    
+    sideBar = new JPanel();
+    sideBar.setLayout(new GridLayout(4, 1, 10, 10));
+    
+    JPanel turnPanel = new JPanel();
+    
+    turn = new JLabel("Vez do jogador");
+    turn.setFont(new Font("Times", Font.PLAIN, 16));
+    turn.setHorizontalAlignment(JLabel.CENTER);
+
+    sideBar.add(turn);
+    
+    lblPlayer1 = new JLabel();
+    lblPlayer1.setFont(font);
+    turnPanel.add(lblPlayer1);
+   
+    lblPlayer2 = new JLabel();
+    lblPlayer2.setFont(font);
+    lblPlayer2.setVisible(false);
+    turnPanel.add(lblPlayer2);    
+    
+    sideBar.add(turnPanel);
+    
+    novoJogo = new JButton("Novo Jogo");
+    novoJogo.setMargin(new Insets(-2, -2, -2, -2));
+    sideBar.add(novoJogo);
+    
+    
+    menu = new JButton("Voltar ao Menu");
+    menu.setMargin(new Insets(-2, -2, -2, -2));
+    sideBar.add(menu);
+    
+    
+    board.add(sideBar);
 
     // Adiciona o board ao frame
     getContentPane().add(board);
@@ -34,18 +73,15 @@ public class TabuleiroView extends JFrame implements ActionListener {
     setLocationRelativeTo(null);
   }
 
-  class FecharJanelaListener extends WindowAdapter  {
-    public void windowClosing(WindowEvent e) {
-       System.out.println("veio");
-    }
-  }
-
   public void actionPerformed(ActionEvent e) {
     Object obj = e.getSource();
 
     if (obj instanceof Celula) {
       model.setCelulaAtual((Celula) obj);
       checkAndUpdateGameState();
+      if (model.getJogadorAtual().isRobot()) {
+          
+      }
     }
   }
 
@@ -56,13 +92,20 @@ public class TabuleiroView extends JFrame implements ActionListener {
 
       if (this.resultChecker.hasWon()) {
         paintCells(this.resultChecker.getWinnerCells());
-        this.statusLabel.setText(model.getJogadorAtual().getMarker() +  "ganhou");
+        this.turn.setText("Vencedor");
         this.finishGame();
       } else {
         model.inverterJogadores();
-        statusLabel.setText(model.getJogadorAtual().getMarker() + " Playing");
+        atualizarLabels();
       }
     }
+  }
+  
+  public void atualizarLabels() {
+    boolean isPlayer1 = model.getJogador1() == model.getJogadorAtual();
+    
+    lblPlayer1.setVisible(isPlayer1);
+    lblPlayer2.setVisible(!isPlayer1);
   }
 
   public void finishGame() {
@@ -71,11 +114,13 @@ public class TabuleiroView extends JFrame implements ActionListener {
         celulas[row][col].setEnabled(false);
       }
     }
+    
+    novoJogo.setVisible(true);
   }
 
   public void paintCells(Celula[] cells) {
     for (int i = 0; i < cells.length; i++) {
-      cells[i].setBackground(Color.GREEN);
+      cells[i].pintar();
     }
   }
 
@@ -125,23 +170,30 @@ public class TabuleiroView extends JFrame implements ActionListener {
 
     // Adiciona as celular ao model
     model.setCelulas(celulas);
+    board.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
     // Adiciona o board no frame
-    board.add(cellsPanel, BorderLayout.PAGE_START);
-  }
-
-  public void configurarTabuleiro() {
-    resultChecker = new VerificadorResultado(model);
-    scorePanel = new JPanel();
-    scorePanel.setLayout(new GridLayout(1, 2));
-    statusLabel = new JLabel(model.getJogador1().getMarker() + " Playing");
-    statusLabel.setHorizontalAlignment(JLabel.CENTER);
-    statusLabel.setVerticalAlignment(JLabel.CENTER);
-    scorePanel.add(statusLabel);
-    board.add(scorePanel, BorderLayout.PAGE_END);
-    setVisible(true);
+    board.add(cellsPanel);
   }
 
   public void addJanelaListener(WindowAdapter adapter) {
     this.addWindowListener(adapter);
+  }
+
+  public void novoJogo() {
+    resultChecker = new VerificadorResultado(model);
+    lblPlayer1.setText(model.getJogador1().getMarker());
+    lblPlayer2.setText(model.getJogador2().getMarker());
+    atualizarLabels();
+    pack();
+    setVisible(true);
+  }
+
+  public void addNovoJogoListener(ActionListener listener) {
+    novoJogo.addActionListener(listener); 
+  }
+  
+  public void addMenuListener(ActionListener listener) {
+    menu.addActionListener(listener);
+    
   }
 }

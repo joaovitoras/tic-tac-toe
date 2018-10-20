@@ -1,4 +1,4 @@
-package auxiliar;
+package src;
 
 import models.TabuleiroModel;
 import views.TabuleiroView;
@@ -19,7 +19,6 @@ public class VerificadorResultado {
   }
 
   public boolean wonBy(String by) {
-    System.out.println(celulas.length);
     for (int row = 0; row < celulas.length; row++) {
       int occurrences = 0;
 

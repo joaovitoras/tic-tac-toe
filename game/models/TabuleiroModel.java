@@ -1,6 +1,6 @@
 package models;
 
-import auxiliar.Celula;
+import src.Celula;
 
 public class TabuleiroModel {
   private Celula[][] celulas;
@@ -31,28 +31,39 @@ public class TabuleiroModel {
   
   public void inverterJogadores() {
     if (jogadorAtual == jogador1) {
-      System.out.println("jogador2");
       jogadorAtual = jogador2;
     } else {
-      System.out.println("jogador1");
       jogadorAtual = jogador1;
     }
   }
 
-  public void setPlayer1(Jogador jogador) {
-    this.jogador1 = jogador;
-    this.jogadorAtual = this.jogador1;
-  }
-  
-  public void setPlayer2(Jogador jogador) {
-    this.jogador2 = jogador;
-  }
-  
   public void setCelulas(Celula[][] celulas) {
     this.celulas = celulas;
   }
   
   public void setCelulaAtual(Celula celulaAtual) {
     this.celulaAtual = celulaAtual;
+  }
+
+  public void novoJogo(Jogador jogador1, Jogador jogador2) {
+    limpar();
+    this.jogador1 = jogador1;
+    this.jogador2 = jogador2;
+    this.jogadorAtual = this.jogador1; 
+  }
+  
+  public void novoJogo() {
+    limpar(); 
+  }
+  
+  public void limpar() {
+    this.jogadorAtual = this.jogador1;
+    this.celulaAtual = null;
+    
+    for(int linha = 0; linha < this.celulas.length; linha++) {
+      for(int coluna = 0; coluna < this.celulas.length; coluna++) {
+        celulas[linha][coluna].limpar();
+      }
+    }
   }
 }

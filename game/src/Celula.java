@@ -1,4 +1,4 @@
-package auxiliar;
+package src;
 import javax.swing.*;
 
 import models.Jogador;
@@ -40,8 +40,18 @@ public class Celula extends JButton {
     this.setText(jogador.getMarker());
   }
 
-
   public boolean isMarcable() {
     return this.isEnabled();
+  }
+  
+  public void limpar() {
+    setBackground(new Color(238, 238, 238));
+    this.setEnabled(true);
+    this.jogador = null;
+    this.setText(null);
+  }
+
+  public void pintar() {
+    setBackground(Color.GREEN);
   }
 }

@@ -1,8 +1,6 @@
 import models.TabuleiroModel;
 import views.TabuleiroView;
 
-import java.awt.event.WindowAdapter;
-
 import controllers.GameController;
 import controllers.TabuleiroController;
 

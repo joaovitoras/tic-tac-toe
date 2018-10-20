@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 
 import models.Jogador;
 
-public class Configuracoes extends JFrame implements ActionListener {
+public class ConfiguracoesView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
   private JTextField player1;
   private JTextField player2;
@@ -23,7 +23,7 @@ public class Configuracoes extends JFrame implements ActionListener {
   private JButton btnP2Robot;
   private JButton btnSalvar;
 
-  public Configuracoes(GameView gameView) {
+  public ConfiguracoesView(GameView gameView) {
     getContentPane().setFocusTraversalKeysEnabled(false);
     this.setBounds(new Rectangle(0, 0, 210, 240));
     getContentPane().setLayout(null);
@@ -56,9 +56,9 @@ public class Configuracoes extends JFrame implements ActionListener {
     lblPlayer_1.setBounds(110, 20, 79, 16);
     getContentPane().add(lblPlayer_1);
 
-    ImageIcon robot = new ImageIcon(Configuracoes.class.getResource("/images/robot.png"));
+    ImageIcon robot = new ImageIcon(ConfiguracoesView.class.getResource("/images/robot.png"));
     robot = new ImageIcon(robot.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT));
-    ImageIcon human = new ImageIcon(Configuracoes.class.getResource("/images/person.png"));
+    ImageIcon human = new ImageIcon(ConfiguracoesView.class.getResource("/images/person.png"));
     human = new ImageIcon(human.getImage().getScaledInstance(26, 26, Image.SCALE_DEFAULT));
 
     btnP1Human = new JButton("");

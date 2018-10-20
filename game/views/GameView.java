@@ -15,7 +15,7 @@ public class GameView extends JFrame implements ActionListener {
   private JButton btnNovoJogo;
   private JButton btnSair;
   private JButton btnJogadores;
-  private Configuracoes configuracoes;
+  private ConfiguracoesView configuracoesView;
   private Jogador player1;
   private Jogador player2;
   private GameModel model;
@@ -47,7 +47,7 @@ public class GameView extends JFrame implements ActionListener {
 
     this.player1 = new Jogador("✕", false);
     this.player2 = new Jogador("O", false);
-    configuracoes = new Configuracoes(this);
+    configuracoesView = new ConfiguracoesView(this);
 
     this.setResizable(false);
     this.setLocationRelativeTo(null);
@@ -56,7 +56,7 @@ public class GameView extends JFrame implements ActionListener {
 
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == btnJogadores) {
-      configuracoes.setVisible(true);
+      configuracoesView.setVisible(true);
     } else if (e.getSource() == btnSair) {
       System.exit(0);
     }
