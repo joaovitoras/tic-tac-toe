@@ -1,14 +1,12 @@
 package views;
 import javax.swing.*;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
 
 import models.Jogador;
 
@@ -122,12 +120,12 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
   private void salvar() {
     gameView.setPlayer1(new Jogador(
       player1.getText(),
-      btnP1Robot.isEnabled()
+      btnP1Robot.isBorderPainted()
     ));
 
     gameView.setPlayer2(new Jogador(
       player2.getText(),
-      btnP2Robot.isEnabled()
+      btnP2Robot.isBorderPainted()
     ));
   }
 

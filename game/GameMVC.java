@@ -4,7 +4,6 @@ import controllers.GameController;
 import controllers.TabuleiroController;
 
 public class GameMVC {
-  private TabuleiroMVC tabuleiroMVC;
   private GameView view;
   private GameController controller;
 

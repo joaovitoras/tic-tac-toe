@@ -10,7 +10,7 @@ public class Celula extends JButton {
   private Font font = new Font("Avenir", Font.PLAIN, 40);
   private Dimension dimension = new Dimension(80, 80);
   private Jogador jogador;
-  private int row, col;
+  public int row, col;
 
   public Celula(int row, int col) {
     // Muda o tamanho da celula
@@ -22,7 +22,7 @@ public class Celula extends JButton {
     this.col = col;
   }
 
-  public Jogador getPlayer() {
+  public Jogador getJogador() {
     return this.jogador;
   }
 
@@ -34,14 +34,18 @@ public class Celula extends JButton {
     return this.row;
   }
 
-  public void mark(Jogador jogador) {
+  public void marcar(Jogador jogador) {
     this.setEnabled(false);
     this.jogador = jogador;
     this.setText(jogador.getMarker());
   }
 
-  public boolean isMarcable() {
+  public boolean jogavel() {
     return this.isEnabled();
+  }
+  
+  public boolean vazia() {
+    return this.jogador == null;
   }
   
   public void limpar() {
@@ -51,7 +55,7 @@ public class Celula extends JButton {
     this.setText(null);
   }
 
-  public void pintar() {
-    setBackground(Color.GREEN);
+  public void pintar(Color color) {
+    setBackground(color);
   }
 }
