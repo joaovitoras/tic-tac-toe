@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import models.Jogador;
+import models.JogadorModel;
 import models.TabuleiroModel;
 import views.TabuleiroView;
 
@@ -23,7 +23,7 @@ public class TabuleiroController {
     view.addMenuListener(new MenuListener());
   }
 
-  public void startGame(Jogador jogador1, Jogador jogador2) {
+  public void startGame(JogadorModel jogador1, JogadorModel jogador2) {
     model.novoJogo(jogador1, jogador2);
     view.novoJogo();
   }

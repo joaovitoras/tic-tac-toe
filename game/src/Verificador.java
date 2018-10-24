@@ -1,6 +1,6 @@
 package src;
 
-import models.Jogador;
+import models.JogadorModel;
 import models.TabuleiroModel;
 
 public class Verificador {
@@ -79,7 +79,7 @@ public class Verificador {
   }
 
   public boolean faltaUm() {
-    Jogador jogadorRival = jogadorRival();
+    JogadorModel jogadorRival = jogadorRival();
     return (
       faltaUmPor("linhas", model.getJogadorAtual()) || 
       faltaUmPor("colunas", model.getJogadorAtual()) || 
@@ -92,7 +92,7 @@ public class Verificador {
     );
   }
 
-  private boolean faltaUmPor(String by, Jogador jogador) {
+  private boolean faltaUmPor(String by, JogadorModel jogadorModel) {
     for (int row = 0; row < celulas.length; row++) {
       int ocorrenciasJogador = 0;
       Celula vazia = null;
@@ -109,7 +109,7 @@ public class Verificador {
           coluna = row;
         }
         
-        if (celulas[linha][coluna].getJogador() == jogador) {
+        if (celulas[linha][coluna].getJogador() == jogadorModel) {
           ocorrenciasJogador++;
         } else if (celulas[linha][coluna].vazia()) {
           vazia = celulas[linha][coluna];
@@ -125,25 +125,25 @@ public class Verificador {
     return false;
   }
 
-  public boolean faltaUmDiagonalInversa(Jogador jogador) {
+  public boolean faltaUmDiagonalInversa(JogadorModel jogadorModel) {
     Celula L0C2 = celulas[0][2];
     Celula L1C1 = celulas[1][1];
     Celula L2C0 = celulas[2][0];
-    Jogador jogadorL0C2 = L0C2.getJogador();
-    Jogador jogadorL1C1 = L1C1.getJogador();
-    Jogador jogadorL2C0 = L2C0.getJogador();
+    JogadorModel jogadorL0C2 = L0C2.getJogador();
+    JogadorModel jogadorL1C1 = L1C1.getJogador();
+    JogadorModel jogadorL2C0 = L2C0.getJogador();
 
-    if (jogador == jogadorL0C2 && jogador == jogadorL1C1 && jogadorL2C0 == null) {
+    if (jogadorModel == jogadorL0C2 && jogadorModel == jogadorL1C1 && jogadorL2C0 == null) {
       this.qualFalta = L2C0;
       return true;
     }
 
-    if (jogador == jogadorL0C2 && jogador == jogadorL2C0 && jogadorL1C1 == null) {
+    if (jogadorModel == jogadorL0C2 && jogadorModel == jogadorL2C0 && jogadorL1C1 == null) {
       this.qualFalta = L1C1;
       return true;
     }
 
-    if (jogador == jogadorL1C1 && jogador == jogadorL2C0 && jogadorL0C2 == null) {
+    if (jogadorModel == jogadorL1C1 && jogadorModel == jogadorL2C0 && jogadorL0C2 == null) {
       this.qualFalta = L0C2;
       return true;
     }
@@ -151,25 +151,25 @@ public class Verificador {
     return false;
   }
 
-  public boolean faltaUmDiagonal(Jogador jogador) {
+  public boolean faltaUmDiagonal(JogadorModel jogadorModel) {
     Celula L0C0 = celulas[0][0];
     Celula L1C1 = celulas[1][1];
     Celula L2C2 = celulas[2][2];
-    Jogador jogadorL0C0 = L0C0.getJogador();
-    Jogador jogadorL1C1 = L1C1.getJogador();
-    Jogador jogadorL2C2 = L2C2.getJogador();
+    JogadorModel jogadorL0C0 = L0C0.getJogador();
+    JogadorModel jogadorL1C1 = L1C1.getJogador();
+    JogadorModel jogadorL2C2 = L2C2.getJogador();
 
-    if (jogador == jogadorL0C0 && jogador == jogadorL1C1 && jogadorL2C2 == null) {
+    if (jogadorModel == jogadorL0C0 && jogadorModel == jogadorL1C1 && jogadorL2C2 == null) {
       this.qualFalta = L2C2;
       return true;
     }
 
-    if (jogador == jogadorL0C0 && jogador == jogadorL2C2 && jogadorL1C1 == null) {
+    if (jogadorModel == jogadorL0C0 && jogadorModel == jogadorL2C2 && jogadorL1C1 == null) {
       this.qualFalta = L1C1;
       return true;
     }
 
-    if (jogador == jogadorL1C1 && jogador == jogadorL2C2 && jogadorL0C0 == null) {
+    if (jogadorModel == jogadorL1C1 && jogadorModel == jogadorL2C2 && jogadorL0C0 == null) {
       this.qualFalta = L0C0;
       return true;
     }
@@ -195,7 +195,7 @@ public class Verificador {
     return jogadas == 0;
   }
   
-  private Jogador jogadorRival() {
+  private JogadorModel jogadorRival() {
 	  if (model.getJogador1() == model.getJogadorAtual()) {
 		  return model.getJogador2();
 	  } else {

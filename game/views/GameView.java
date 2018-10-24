@@ -7,7 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.Rectangle;
 import models.GameModel;
-import models.Jogador;
+import models.JogadorModel;
 
 public class GameView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
@@ -16,8 +16,8 @@ public class GameView extends JFrame implements ActionListener {
   private JButton btnSair;
   private JButton btnJogadores;
   private ConfiguracoesView configuracoesView;
-  private Jogador player1;
-  private Jogador player2;
+  private JogadorModel jogador1;
+  private JogadorModel jogador2;
   private GameModel model;
 
   public GameView(GameModel model) {
@@ -45,8 +45,8 @@ public class GameView extends JFrame implements ActionListener {
     btnJogadores.addActionListener(this);
     getContentPane().add(btnJogadores);
 
-    this.player1 = new Jogador("✕", false);
-    this.player2 = new Jogador("O", false);
+    this.jogador1 = model.getConfig().getJogador1();
+    this.jogador2 = model.getConfig().getJogador2();
     configuracoesView = new ConfiguracoesView(this);
 
     this.setResizable(false);
@@ -62,20 +62,20 @@ public class GameView extends JFrame implements ActionListener {
     }
   }
 
-  public void setPlayer1(Jogador jogador) {
-    this.player1 = jogador;
+  public void setPlayer1(JogadorModel jogadorModel) {
+    this.jogador1 = jogadorModel;
   }
 
-  public void setPlayer2(Jogador jogador) {
-    this.player2 = jogador;
+  public void setPlayer2(JogadorModel jogadorModel) {
+    this.jogador2 = jogadorModel;
   }
   
-  public Jogador getPlayer1() {
-    return this.player1;
+  public JogadorModel getPlayer1() {
+    return this.jogador1;
   }
 
-  public Jogador getPlayer2() {
-    return this.player2;
+  public JogadorModel getPlayer2() {
+    return this.jogador2;
   }
   
   public void addNovoJogoListener(ActionListener listener) {

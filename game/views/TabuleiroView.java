@@ -81,7 +81,7 @@ public class TabuleiroView extends JFrame implements ActionListener {
       model.setCelulaAtual((Celula) obj);
       checkAndUpdateGameState();
 
-      if (model.getJogadorAtual().isRobot()) {
+      if (model.getJogadorAtual().robo()) {
         model.getJogadorAtual().jogar();
       }
     }
@@ -89,13 +89,13 @@ public class TabuleiroView extends JFrame implements ActionListener {
   
   public void novoJogo() {
     verificador = new Verificador(model);
-    lblPlayer1.setText(model.getJogador1().getMarker());
-    lblPlayer2.setText(model.getJogador2().getMarker());
+    lblPlayer1.setText(model.getJogador1().getMarca());
+    lblPlayer2.setText(model.getJogador2().getMarca());
     
-    if (model.getJogador2().isRobot()) {
+    if (model.getJogador2().robo()) {
       model.getJogador2().iniciarAI(this, verificador);
     }
-    if (model.getJogador1().isRobot()) {
+    if (model.getJogador1().robo()) {
       model.getJogador1().iniciarAI(this, verificador);
       model.getJogador1().jogar();
     }
@@ -107,7 +107,7 @@ public class TabuleiroView extends JFrame implements ActionListener {
 
   public void checkAndUpdateGameState() {
     if (model.getCelulaAtual().jogavel()) {
-      model.getJogadorAtual().getMarker();
+      model.getJogadorAtual().getMarca();
       model.getCelulaAtual().marcar(model.getJogadorAtual());
 
       if (this.verificador.hasWon()) {

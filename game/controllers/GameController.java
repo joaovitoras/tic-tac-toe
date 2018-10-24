@@ -7,16 +7,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import models.ConfiguracaoModel;
 import models.GameModel;
 
 public class GameController {
   private GameModel model;
   private GameView view;
   private TabuleiroController tabuleiroController;
+  private ConfiguracaoModel config;
 
   public GameController(GameModel model, GameView view) {
     this.model = model;
     this.view = view;
+    this.config = model.getConfig();
 
     view.addNovoJogoListener(new NovoJogoListener());
   }
@@ -27,7 +30,7 @@ public class GameController {
 
   class NovoJogoListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-      tabuleiroController.startGame(view.getPlayer1(), view.getPlayer2());
+      tabuleiroController.startGame(config.getJogador1(), config.getJogador2());
       view.setVisible(false);
     }
   }

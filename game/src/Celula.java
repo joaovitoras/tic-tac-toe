@@ -1,7 +1,7 @@
 package src;
 import javax.swing.*;
 
-import models.Jogador;
+import models.JogadorModel;
 
 import java.awt.*;
 
@@ -9,7 +9,7 @@ public class Celula extends JButton {
   private static final long serialVersionUID = 1L;
   private Font font = new Font("Avenir", Font.PLAIN, 40);
   private Dimension dimension = new Dimension(80, 80);
-  private Jogador jogador;
+  private JogadorModel jogadorModel;
   public int row, col;
 
   public Celula(int row, int col) {
@@ -22,8 +22,8 @@ public class Celula extends JButton {
     this.col = col;
   }
 
-  public Jogador getJogador() {
-    return this.jogador;
+  public JogadorModel getJogador() {
+    return this.jogadorModel;
   }
 
   public int getCol() {
@@ -34,10 +34,10 @@ public class Celula extends JButton {
     return this.row;
   }
 
-  public void marcar(Jogador jogador) {
+  public void marcar(JogadorModel jogadorModel) {
     this.setEnabled(false);
-    this.jogador = jogador;
-    this.setText(jogador.getMarker());
+    this.jogadorModel = jogadorModel;
+    this.setText(jogadorModel.getMarca());
   }
 
   public boolean jogavel() {
@@ -45,13 +45,13 @@ public class Celula extends JButton {
   }
   
   public boolean vazia() {
-    return this.jogador == null;
+    return this.jogadorModel == null;
   }
   
   public void limpar() {
     setBackground(new Color(238, 238, 238));
     this.setEnabled(true);
-    this.jogador = null;
+    this.jogadorModel = null;
     this.setText(null);
   }
 

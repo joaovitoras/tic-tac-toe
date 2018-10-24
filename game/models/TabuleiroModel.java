@@ -5,19 +5,19 @@ import src.Celula;
 public class TabuleiroModel {
   private Celula[][] celulas;
   private Celula celulaAtual;
-  private Jogador jogador1;
-  private Jogador jogador2;
-  private Jogador jogadorAtual;
+  private JogadorModel jogador1;
+  private JogadorModel jogador2;
+  private JogadorModel jogadorAtual;
   
-  public Jogador getJogador1() {
+  public JogadorModel getJogador1() {
     return jogador1;
   }
   
-  public Jogador getJogador2() {
+  public JogadorModel getJogador2() {
     return jogador2;
   }
   
-  public Jogador getJogadorAtual() {
+  public JogadorModel getJogadorAtual() {
     return jogadorAtual;
   }
   
@@ -45,7 +45,7 @@ public class TabuleiroModel {
     this.celulaAtual = celulaAtual;
   }
 
-  public void novoJogo(Jogador jogador1, Jogador jogador2) {
+  public void novoJogo(JogadorModel jogador1, JogadorModel jogador2) {
     limpar();
     this.jogador1 = jogador1;
     this.jogador2 = jogador2;

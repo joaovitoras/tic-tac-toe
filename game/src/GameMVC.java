@@ -1,3 +1,4 @@
+package src;
 import models.GameModel;
 import views.GameView;
 import controllers.GameController;

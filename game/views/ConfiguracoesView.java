@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 
-import models.Jogador;
+import models.JogadorModel;
 
 public class ConfiguracoesView extends JFrame implements ActionListener {
   private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
     player1 = new JTextField();
     player1.setFocusTraversalKeysEnabled(false);
     player1.setHorizontalAlignment(SwingConstants.CENTER);
-    player1.setText(gameView.getPlayer1().getMarker());
+    player1.setText(gameView.getPlayer1().getMarca());
     player1.setFont(new Font("Avenir", Font.PLAIN, 40));
     player1.setBounds(20, 40, 80, 80);
     getContentPane().add(player1);
@@ -38,7 +38,7 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
     player2 = new JTextField();
     player2.setFocusTraversalKeysEnabled(false);
     player2.setHorizontalAlignment(SwingConstants.CENTER);
-    player2.setText(gameView.getPlayer2().getMarker());
+    player2.setText(gameView.getPlayer2().getMarca());
     player2.setFont(new Font("Avenir", Font.PLAIN, 40));
     player2.setColumns(10);
     player2.setBounds(110, 40, 80, 80);
@@ -62,6 +62,7 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
     btnP1Human = new JButton("");
     btnP1Human.setBounds(20, 120, 40, 40);
     btnP1Human.setIcon(human);
+    btnP1Human.setBorderPainted(gameView.getPlayer1().humano());
     btnP1Human.addActionListener(this);
     getContentPane().add(btnP1Human);
 
@@ -69,6 +70,7 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
     btnP1Robot.setBounds(60, 120, 40, 40);
     btnP1Robot.setBorderPainted(false);
     btnP1Robot.setIcon(robot);
+    btnP1Robot.setBorderPainted(gameView.getPlayer1().robo());
     btnP1Robot.addActionListener(this);
     getContentPane().add(btnP1Robot);
 
@@ -76,6 +78,7 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
     btnP2Human.setEnabled(true);
     btnP2Human.setBounds(110, 120, 40, 40);
     btnP2Human.setIcon(human);
+    btnP2Human.setBorderPainted(gameView.getPlayer2().humano());
     btnP2Human.addActionListener(this);
     getContentPane().add(btnP2Human);
 
@@ -83,6 +86,7 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
     btnP2Robot.setBounds(150, 120, 40, 40);
     btnP2Robot.setBorderPainted(false);
     btnP2Robot.setIcon(robot);
+    btnP2Robot.setBorderPainted(gameView.getPlayer2().robo());
     btnP2Robot.addActionListener(this);
     getContentPane().add(btnP2Robot);
 
@@ -118,12 +122,12 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
   }
 
   private void salvar() {
-    gameView.setPlayer1(new Jogador(
+    gameView.setPlayer1(new JogadorModel(
       player1.getText(),
       btnP1Robot.isBorderPainted()
     ));
 
-    gameView.setPlayer2(new Jogador(
+    gameView.setPlayer2(new JogadorModel(
       player2.getText(),
       btnP2Robot.isBorderPainted()
     ));
