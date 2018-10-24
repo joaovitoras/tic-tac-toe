@@ -37,7 +37,7 @@ public class TabuleiroView extends JFrame implements ActionListener {
 
     JPanel turnPanel = new JPanel();
 
-    labelTurno = new JLabel("Vez do jogador");
+    labelTurno = new JLabel();
     labelTurno.setFont(new Font("Times", Font.PLAIN, 16));
     labelTurno.setHorizontalAlignment(JLabel.CENTER);
 
@@ -91,6 +91,7 @@ public class TabuleiroView extends JFrame implements ActionListener {
     verificador = new Verificador(model);
     lblPlayer1.setText(model.getJogador1().getMarca());
     lblPlayer2.setText(model.getJogador2().getMarca());
+    labelTurno.setText("Vez do jogador");
     
     if (model.getJogador2().robo()) {
       model.getJogador2().iniciarAI(this, verificador);
@@ -116,6 +117,7 @@ public class TabuleiroView extends JFrame implements ActionListener {
         this.finishGame();
       } else if (this.verificador.endGame()) {
         paintCells(this.celulas, Color.ORANGE);
+        labelTurno.setText("Empate");
       } else {
       
         model.inverterJogadores();
