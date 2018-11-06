@@ -122,15 +122,15 @@ public class ConfiguracoesView extends JFrame implements ActionListener {
   }
 
   private void salvar() {
-    gameView.setPlayer1(new JogadorModel(
-      player1.getText(),
-      btnP1Robot.isBorderPainted()
-    ));
+    JogadorModel j1 = gameView.getPlayer1();
+    j1.setMarca(player1.getText());
+    j1.setRobo(btnP1Robot.isBorderPainted());
+    j1.save();
 
-    gameView.setPlayer2(new JogadorModel(
-      player2.getText(),
-      btnP2Robot.isBorderPainted()
-    ));
+    JogadorModel j2 = gameView.getPlayer2();
+    j2.setMarca(player2.getText());
+    j2.setRobo(btnP2Robot.isBorderPainted());
+    j2.save();
   }
 
 }

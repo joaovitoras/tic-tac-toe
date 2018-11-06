@@ -24,11 +24,12 @@ public class AI {
     L2C1 = view.getCelulas()[2][1];
   }
   
-  public void jogar() {    
+  public void jogar() {
     if (jogadas == 0) {
       identificarEstrategia();
     }    
     
+    jogadas++;
     if (verificador.faltaUm()) {
       verificador.getQualFalta().doClick();
     } else {
@@ -38,11 +39,10 @@ public class AI {
         estrategiaBordaEBloqueio();
       } else if (comecouBorda) {
         estrategiaCantos();
+      } else {
+        estrategiaMeioEBordas();
       }
     }
-    
-    jogadas++;
-    
   }
 
   private void estrategiaCantos() {

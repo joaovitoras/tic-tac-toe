@@ -96,14 +96,18 @@ public class TabuleiroView extends JFrame implements ActionListener {
     if (model.getJogador2().robo()) {
       model.getJogador2().iniciarAI(this, verificador);
     }
+    
     if (model.getJogador1().robo()) {
       model.getJogador1().iniciarAI(this, verificador);
-      model.getJogador1().jogar();
     }
     
     atualizarLabels();
     pack();
     setVisible(true);
+    
+    if (model.getJogador1().robo()) {
+      model.getJogador1().jogar();
+    }
   }
 
   public void checkAndUpdateGameState() {
